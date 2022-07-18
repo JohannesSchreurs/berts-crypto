@@ -1,0 +1,5 @@
+@import "settings/main";
+
+.list {
+    @include list-reset;
+}

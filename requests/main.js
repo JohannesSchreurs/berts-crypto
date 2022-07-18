@@ -6,17 +6,11 @@ const HOMEPAGE_QUERY = `query HomepageQuery {
       id
     }
     allCryptoEntries {
-      cryptos {
-        cryptoHint
-        id
-        cryptoAnswer
-        createdAt
-        colouredCell
-      }
       title
       keyPhrase
       id
       slug
+      date
     }
 }`;
 

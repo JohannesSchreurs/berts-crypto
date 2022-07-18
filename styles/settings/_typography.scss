@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+@import 'mixins';
+@import 'functions';
+@import 'variables';
+
+/* =========================================================================  */
+/* Font Stacks */
+/* =========================================================================  */
+
+/**
+ * Fonts
+ */
+$mono: 'Space Mono', sans-serif;
+ 
+ /**
+  * Main font detection.
+  */
+$main-font-type: 'mono' !default;
+$main-font: null;
+$main-font-map-key: null;
+@if $main-font-type == 'mono' {
+    $main-font: $mono;
+    $main-font-map-key: 'body';
+}
+ /* =========================================================================  */
+ /* Font weights */
+ /* =========================================================================  */
+ 
+ $normal: 400;
+ $light: 200;
+ 
+ /* =========================================================================  */
+ /* Font maps */
+ /* =========================================================================  */
+ 
+ $fonts: (
+    'body': (
+        'main': (
+            'font-size': 1.4rem,
+            'line-height': (20/14)
+        ),
+        'm': (
+            'font-size': 3.2rem,
+            'line-height': (42/32)
+        )
+    ),
+    'body-small': (
+        'main': (
+            'font-size': 1.4rem,
+            'line-height': (20/14)
+        ),
+        'm': (
+            'font-size': 2.4rem,
+            'line-height': (36/24)
+        )
+    ),
+    'title': (
+        'main': (
+            'font-size': 3.2rem,
+            'line-height': (42/32)
+        ),
+        'm': (
+            'font-size': 6.4rem,
+            'line-height': (95/64)
+        )
+    )
+ );
+ 

@@ -14,15 +14,15 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const data = await getCryptoEntryDataBySlug(params.slug);
+  const crypto = await getCryptoEntryDataBySlug(params.slug);
 
   return {
-    props: { data }
+    props: { crypto }
   }
 }
 
-export default function Crypto({data}) {
-  const { cryptoEntry } = data;
+export default function Crypto({crypto}) {
+  const { cryptoEntry } = crypto;
 
   return (
     <div>
@@ -32,7 +32,7 @@ export default function Crypto({data}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
     
-        <h1>{ cryptoEntry.title }</h1>
+        {/* <h1>{ cryptoEntry.title }</h1> */}
 
         <ul>
           { cryptoEntry.cryptos.map(({ id, cryptoHint, cryptoAnswer }) => (

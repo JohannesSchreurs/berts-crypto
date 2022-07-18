@@ -1,0 +1,69 @@
+$layouts-config: (
+    main: 0,
+    s: 31em, /* 496px */
+    m: 44em, /* 704px */
+    tablet: 60em, /* 960px */
+    l: 69em, /* 1104px */
+    xl: 88em, /* 1408px */
+    wide: 100em /* 1600px */
+);
+
+$layouts-name: map-keys($layouts-config);
+$layouts-break-point: map-values($layouts-config);
+
+/* =========================================================================  */
+/* Spacings */
+/* =========================================================================  */
+
+/**
+ * Spacings used by the custom properties (and the mixin `spacing`).
+ */
+$site-spacings: (
+    'main': (
+        s: 1.8rem,
+        m: 2.2rem,
+        l: 4.4rem,
+        xl: 8.8rem,
+        wide: 12.4rem
+    ),
+
+    'm': (
+        s: 2.2rem,
+        m: 4.4rem,
+        l: 8.8rem,
+        xl: 13.6rem,
+        wide: 22.4rem
+    )
+);
+
+/* =========================================================================  */
+/* Wrapper */
+/* =========================================================================  */
+
+$wrapper-padding: (
+    main: 2rem,
+    m: 5rem
+);
+
+@mixin wrapper {
+    @each $breakpoint, $value in $wrapper-padding {
+        @include media-query($breakpoint) {
+            padding-left: $value;
+            padding-right: $value;
+        }
+
+        @include media-query($breakpoint) {
+            @supports (padding: calc(constant(safe-area-inset-left))) { /* [1] */
+                padding-left: calc(#{$value} + constant(safe-area-inset-left));
+                padding-right: calc(#{$value} + constant(safe-area-inset-right));
+            }
+        }
+
+        @include media-query($breakpoint) {
+            @supports (padding: calc(max(0px))) { /* [2] */
+                padding-left: calc(max(#{$value}, env(safe-area-inset-left)));
+                padding-right: calc(max(#{$value}, env(safe-area-inset-right)));
+            }
+        }
+    }
+}

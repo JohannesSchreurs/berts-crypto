@@ -1,0 +1,15 @@
+@import "settings/main";
+
+.listItem {
+}
+
+.listItem::after {
+    content: '';
+    width: 2rem;
+    height: 2rem;
+    display: block;
+    background-image: svg(arrow);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
