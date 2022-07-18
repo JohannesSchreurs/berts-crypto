@@ -21,7 +21,7 @@ export default function Home({main}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>{ homepage.title }</h1>
+      {/* <h1>{ homepage.title }</h1> */}
       <CryptosList list={allCryptoEntries} />
     </div>
   )

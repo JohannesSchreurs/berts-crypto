@@ -12,18 +12,18 @@ const CrytpoListItem = ({ id, title, slug, date, isFirst }) => {
 
     return (
         isFirst ? (
-            <li key={id} className={styles.listItem}>
-                <time datatime={_date}>
-                    { _date }
-                </time>
+            <li key={id} className={`${styles.listItem} ${styles.listItemFirst}`}>
+                <p className={styles.subTitle}>Laatste crypto:</p>
+                <p className={styles.title}>{title}</p>
                 <Link href={`/cryptos/${slug}`}>
-                    
-                    { `${title} first` }
+                    <a className={styles.start}>
+                        Beginnen
+                    </a>
                 </Link>
             </li>
         ) : (
             <li key={id} className={styles.listItem}>
-                <time datatime={_date}>
+                <time className={styles.date} datatime={_date}>
                     { _date }
                 </time>
                 <Link href={`/cryptos/${slug}`}>

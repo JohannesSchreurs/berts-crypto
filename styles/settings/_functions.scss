@@ -276,14 +276,14 @@ $touch-area-length: 44px ) {
  * You may want to use the mixin `@include grid-helper` in order to have a visual
  * rendering of the grid.
  */
-$gutter: 2.7%;
+$gutter: 2.5%;
 
 @function grid($columns, $expand: narrow, $parentColumns: false) {
-    $column: (100% - ($gutter * 5)) / 6;
+    $column: (100% - ($gutter * 11)) / 12;
     $width: 0%;
 
     @if $parentColumns {
-        $gutter: $gutter * (6 / $parentColumns);
+        $gutter: $gutter * (12 / $parentColumns);
         $column: (100% - ($gutter * ($parentColumns - 1))) / $parentColumns;
     }
 

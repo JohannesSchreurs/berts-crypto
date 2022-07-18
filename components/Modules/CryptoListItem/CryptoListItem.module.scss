@@ -1,15 +1,96 @@
 @import "settings/main";
 
 .listItem {
+    @include wrapper;
+    @include expand-interaction-to-card;
+    border-bottom: 1px solid $black;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transition: opacity .2s ease-out;
+    @include media-query(m) {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+        
+    }
 }
 
 .listItem::after {
     content: '';
+    margin-left: auto;
     width: 2rem;
     height: 2rem;
     display: block;
+    opacity: 1;
     background-image: svg(arrow);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    transform: translateX(-1rem);
+    transition: transform .2s ease-out, opacity .2s ease-out;
+    @include media-query(m) {
+        opacity: 0;
+    }
+}
+
+.listItem:hover::after,
+.listItem:focus::after {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.title {
+    margin-left: grid(1, wider);
+}
+
+.date {
+    @include font(body-small);
+}
+
+/* =========================================================================  */
+/* First list item */
+/* =========================================================================  */
+.listItemFirst {
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+
+    @include media-query(m) {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+        
+    }
+}
+
+.listItemFirst::after {
+    display: none
+}
+
+.listItemFirst .title {
+    @include font(title);
+    margin-left: 0;
+}
+
+.start {
+    text-align: center;
+    padding: 1.5rem;
+    border: 1px solid $black;
+    width: 100%;
+    margin-top: 3rem;
+    background-color: $white;
+    color: $black;
+    transition: background-color .2s ease-out, color .2s ease-out;
+    @include media-query(m) {
+        margin-top: 4rem;
+        width: grid(4);
+    }
+}
+
+.listItemFirst:hover .start,
+.listItemFirst:focus .start {
+    color: $white;
+    background-color: $black;
 }
