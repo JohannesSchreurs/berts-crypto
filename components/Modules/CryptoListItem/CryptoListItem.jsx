@@ -1,14 +1,8 @@
-import { useState, useEffect } from 'react';
-
 import Link from 'next/link';
 import styles from './CryptoListItem.module.scss';
 
 const CrytpoListItem = ({ id, title, slug, date, isFirst }) => {
-    const [_date, setDate] = useState(date);
-    
-    useEffect(() => {
-        setDate(() => new Date(date).toLocaleDateString());
-    }, []);
+    const formattedDate = new Date(date).toLocaleDateString();
 
     return (
         isFirst ? (
@@ -23,8 +17,8 @@ const CrytpoListItem = ({ id, title, slug, date, isFirst }) => {
             </li>
         ) : (
             <li key={id} className={styles.listItem}>
-                <time className={styles.date} datatime={_date}>
-                    { _date }
+                <time className={styles.date} datatime={formattedDate}>
+                    { formattedDate }
                 </time>
                 <Link href={`/cryptos/${slug}`}>
                     <a className={styles.title}>

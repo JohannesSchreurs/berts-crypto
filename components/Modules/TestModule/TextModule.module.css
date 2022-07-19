@@ -1,5 +1,0 @@
-@import "variables.css";
-
-.title {
-    @extend .l-wrapper;
-}

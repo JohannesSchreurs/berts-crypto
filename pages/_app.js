@@ -1,11 +1,9 @@
-import {StoreContext} from 'storeon/react';
+import { StoreContext } from 'storeon/react';
 import '../styles/globals.scss';
 import 'normalize.css';
-import { useStore } from '../store/store';
+import { store } from '../store/store';
 
-function MyApp({ Component, pageProps }) {
-  const store = useStore(pageProps);
-
+function App({ Component, pageProps }) {
   return (
     <StoreContext.Provider value={store}>
       <Component {...pageProps} />
@@ -13,4 +11,4 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default App

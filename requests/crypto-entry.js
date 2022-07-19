@@ -3,6 +3,7 @@ import { request } from '../lib/datocms';
 const CRYPTO_ENTRY_QUERY = `query CrytpoEntryQueryBySlug($slug: String) {
     cryptoEntry(filter: {slug: {eq: $slug}}) {
         title
+        date
         slug
         keyPhrase
         id

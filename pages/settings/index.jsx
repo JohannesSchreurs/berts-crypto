@@ -11,7 +11,6 @@ export async function getStaticProps() {
 
 export default function Settings({data}) {
 const { settingsPage } = data;
-console.log(data)
   return (
     <div>
       <Head>

@@ -3,13 +3,15 @@
 .listItem {
     @include wrapper;
     @include expand-interaction-to-card;
-    border-bottom: 1px solid $black;
+    border-bottom: 1px solid $primary-color;
     padding-top: 2rem;
     padding-bottom: 2rem;
     display: flex;
     flex-direction: row;
     align-items: center;
-    transition: opacity .2s ease-out;
+    background-color: $contrast-color;
+    color: $primary-color;
+    transition: color .2s ease-out, background-color .2s ease-out;
     @include media-query(m) {
         padding-top: 4rem;
         padding-bottom: 4rem;
@@ -20,11 +22,11 @@
 .listItem::after {
     content: '';
     margin-left: auto;
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     display: block;
     opacity: 1;
-    background-image: svg(arrow);
+    background-image: svg(arrow-black);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -32,14 +34,25 @@
     transition: transform .2s ease-out, opacity .2s ease-out;
     @include media-query(m) {
         opacity: 0;
+        background-image: svg(arrow);
+        width: 4rem;
+        height: 4rem;
     }
+}
+
+.listItem:hover,
+.listItem:focus {
+    background-color: $primary-color;
+    color: $contrast-color;
 }
 
 .listItem:hover::after,
 .listItem:focus::after {
     transform: translateX(0);
     opacity: 1;
+    background-image: svg(arrow);
 }
+
 
 .title {
     margin-left: grid(1, wider);
@@ -57,6 +70,7 @@
     justify-content: center;
     padding-top: 4rem;
     padding-bottom: 4rem;
+    background-color: $contrast-color;
 
     @include media-query(m) {
         padding-top: 6rem;
@@ -77,11 +91,11 @@
 .start {
     text-align: center;
     padding: 1.5rem;
-    border: 1px solid $black;
+    border: 1px solid $primary-color;
     width: 100%;
     margin-top: 3rem;
-    background-color: $white;
-    color: $black;
+    background-color: $contrast-color;
+    color: $primary-color;
     transition: background-color .2s ease-out, color .2s ease-out;
     @include media-query(m) {
         margin-top: 4rem;
@@ -91,6 +105,11 @@
 
 .listItemFirst:hover .start,
 .listItemFirst:focus .start {
-    color: $white;
-    background-color: $black;
+    color: $contrast-color;
+    background-color: $primary-color;
+}
+.listItemFirst:hover,
+.listItemFirst:focus {
+    color: $primary-color;
+    background-color: $contrast-color;
 }
