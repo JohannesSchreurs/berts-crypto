@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useStoreon } from 'storeon/react';
 import styles from './GridWrapper.module.scss';
 import GridRow from '../GridRow/GridRow';
@@ -12,6 +13,13 @@ const GridWrapper = ({ gridData, hints }) => {
         dispatch(storeConstants.STORE.GRID.SET.ACTIVE_ROW, index );
         dispatch(storeConstants.STORE.GRID.SET.ACTIVE_TILE, `${index}0` );
     }
+
+    useEffect(() => {
+        return () => {
+            dispatch(storeConstants.STORE.GRID.SET.ACTIVE_ROW, '');
+            dispatch(storeConstants.STORE.GRID.SET.ACTIVE_TILE, '');
+        };
+    }, []);
 
     return (
         <div className={styles.wrapper}>

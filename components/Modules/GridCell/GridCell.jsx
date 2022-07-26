@@ -78,7 +78,6 @@ const GridCell = ({ cell, rowIndex }) => {
     }
 
     const selectHandler = () => {
-        console.log('select handler ran')
         inputRef.current.setSelectionRange(-1, -1);
     }
 
@@ -87,6 +86,7 @@ const GridCell = ({ cell, rowIndex }) => {
             inputRef.current.focus();
         }
     }, [grid.activeTile === cell.id])
+
 
     return (
         <g className={`${styles.cell} ${grid.activeTile === cell.id ? styles.cellHighlight : ''}`}>
