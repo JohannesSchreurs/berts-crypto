@@ -1,68 +1,77 @@
-import { useEffect, useRef, useReducer } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStoreon } from 'storeon/react';
-
+import { useRouter } from 'next/router'
 import styles from './GridCell.module.scss';
 import gridConstants from '../../../utils/constants';
 import constants from '../../../store/constants';
 
-const initialState = {
-    text: ''
-};
-
-const reducer = (state = initialState, action) => {
-
-    switch (action.type) {
-        case 'reset':
-            return initialState;
-
-        case 'setText':
-            return { 
-                ...state,
-                text: action.text
-            }
-    
-        default:
-            throw new Error('Something went wrong with the state');
-    }
-};
-
 const GridCell = ({ cell, rowIndex }) => {
-    const [state, _dispatch] = useReducer(reducer, initialState);
-    const { grid, dispatch } = useStoreon('grid');
+    const { grid, solution, dispatch } = useStoreon('grid', 'solution');
+    const { query } = useRouter();
     const inputRef = useRef();
+    const [letter, setLetter] = useState(solution[query.slug]?.hintLetters[cell.hint.wordIndexValue] || solution[query.slug]?.cells[cell.id] || inputRef.current?.value || '')
     const inputRegex = '^[a-zA-Z]$';
-
+    const firstRender = useRef(true);
+    
     const inputChangeHandler = e => {
-        if (state.text.length === 0) {
-            if (e.target.value.match(inputRegex)) {
-                _dispatch({ type: 'setText', text: e.target.value })
-                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.nextCell);
+        const lastLetter = e.target.value.slice(-1);
+
+        if (lastLetter.match(inputRegex)) {
+            setLetter(lastLetter);
+            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.nextCell);
+
+            dispatch(constants.STORE.SOLUTION.SET.CELLS, {
+                id: query.slug,
+                cellId: cell.id,
+                cellValue: lastLetter
+            });
+
+            if (!!cell.hint) {
+                dispatch(constants.STORE.SOLUTION.SET.HINTS, {
+                    id: query.slug,
+                    cellId: cell.hint.wordIndexValue,
+                    cellValue: lastLetter
+                });
             }
-        } else {
-            if (e.target.value.length === 0) {
-            } else if (e.target.value.length === 2) { 
-                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.nextCell);
-            } else {
-                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.id);
-            }
-            _dispatch({ type: 'setText', text: e.target.value.slice(-1) });
         }
     }
 
     const inputKeyHandler = e => {
+        // Manually do the clearing of a cell, as backspace isn't really that convient to use in onChange
         if (e.key === 'Backspace' || e.key === 'Delete') {
-            if (state.text.length !== 1) {
-                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.previousCell);
+            setLetter('');
+            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.previousCell);
+            dispatch(constants.STORE.SOLUTION.SET.CELLS, {
+                id: query.slug,
+                cellId: cell.id,
+                cellValue: ''
+            });
+
+            if (!!cell.hint) {
+                dispatch(constants.STORE.SOLUTION.SET.HINTS, {
+                    id: query.slug,
+                    cellId: cell.hint.wordIndexValue,
+                    cellValue: ''
+                });
             }
         }
 
         if(e.key === 'ArrowLeft') {
-            console.log('trigger')
             dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.previousCell);
         }
         
         if (e.key === 'ArrowRight') {
             dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.nextCell);
+        }
+
+        if(e.key === 'ArrowUp') {
+            dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex === 0 ? 18 : rowIndex - 1);
+            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 0 ? `180` : `${rowIndex-1}-0`);
+        }
+
+        if(e.key === 'ArrowDown' || e.key === 'Enter') {
+            dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex === 18 ? 0 : rowIndex + 1);
+            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 18 ? `0-0` : `${rowIndex+1}-0`);
         }
     }
 
@@ -82,11 +91,35 @@ const GridCell = ({ cell, rowIndex }) => {
     }
 
     useEffect(() => {
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
+        }
         if (grid.activeTile === cell.id) {            
             inputRef.current.focus();
         }
-    }, [grid.activeTile === cell.id])
+    }, [grid.activeTile === cell.id]);
 
+    useEffect(() => {
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
+        }
+        if (!!cell.hint) {
+            setLetter(solution[query.slug]?.hintLetters[cell.hint.wordIndexValue] || '')
+            dispatch(constants.STORE.SOLUTION.SET.CELLS, {
+                id: query.slug,
+                cellId: cell.id,
+                cellValue: solution[query.slug]?.hintLetters[cell.hint.wordIndexValue]
+            });
+        }
+    }, [solution[query.slug]?.hintLetters[cell.hint.wordIndexValue]]);
+
+    useEffect(() => {
+        if (solution[query.slug]?.reset) {
+            setLetter('')
+        }
+    }, [solution[query.slug]?.reset]);
 
     return (
         <g className={`${styles.cell} ${grid.activeTile === cell.id ? styles.cellHighlight : ''}`}>
@@ -98,13 +131,14 @@ const GridCell = ({ cell, rowIndex }) => {
                     id={cell.id}
                     ref={inputRef}
                     onFocus={focusHandler}
-                    onKeyDownCapture={inputKeyHandler}
+                    onKeyDown={inputKeyHandler}
                     onBlur={blurHandler}
                     onChange={inputChangeHandler}
-                    value={state.text}
+                    value={letter}
                     type="text"
                     onSelect={selectHandler}
                     autoComplete="off"
+                    maxLength="2"
                     name="cell" />
             </foreignObject>
             { !!cell.hint && (

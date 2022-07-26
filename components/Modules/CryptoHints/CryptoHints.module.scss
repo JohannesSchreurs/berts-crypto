@@ -1,0 +1,24 @@
+@import "settings/main";
+
+.wrapper {
+    @include wrapper;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.content {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    @include media-query(tablet) {
+        width: grid(7);
+    }
+}
+
+.hints {
+    @include list-reset;
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    border: 1px solid $black;
+    // grid-auto-rows: 200px;
+}

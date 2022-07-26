@@ -20,9 +20,10 @@ const constants = {
             SET: {
                 DEFAULT: 'SOLUTION/DEFAULT',
                 SOLVED: 'SOLUTION/SOLVED',
-                SEED: 'SOLUTION/SEED',
+                HINTS: 'SOLUTION/HINTS',
                 SOLUTION: 'SOLUTION/SOLUTION',
-                CELLS: 'SOLUTION/CELLS'
+                CELLS: 'SOLUTION/CELLS',
+                RESET: 'SOLUTIONS/RESET'
             },
             SAVE: 'save'
         }

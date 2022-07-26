@@ -1,0 +1,43 @@
+@import "settings/main";
+
+.wrapper {
+    @include font(body-small)
+}
+
+.header {
+    border-right: 1px solid $black;
+    border-bottom: 1px solid $black;
+    border-top: 1px solid $black;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper:nth-child(13n) .header,
+.wrapper:nth-child(13n) .content {
+    border-right: none;
+}
+
+.wrapper:nth-child(n + 14) .header{
+    border-bottom: 1px solid $black;
+    margin-top: 1rem;
+}
+
+.wrapper:nth-child(-n + 13) .header{
+    border-top: 0;
+}
+
+.wrapper:nth-child(n + 14) .content{
+    border-bottom: 0;
+}
+
+.content {
+    border-right: 1px solid $black;
+    border-bottom: 1px solid $black;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}

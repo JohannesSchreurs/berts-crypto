@@ -24,7 +24,7 @@ const getSiblingCells = (cryptoIndex, rowIndex, wordLength) => {
         previousRowIndex = rowIndex === 0 ? wordLength - 1 : rowIndex - 1 
     }
 
-    return [`${nextCryptoIndex}${nextRowIndex}`, `${previousCryptoIndex}${previousRowIndex}`];
+    return [`${nextCryptoIndex}-${nextRowIndex}`, `${previousCryptoIndex}-${previousRowIndex}`];
 }
 
 export const createGridFromData = data => {
@@ -48,7 +48,7 @@ export const createGridFromData = data => {
         const row = [...crypto.cryptoAnswer].map((letter, rowIndex) => {
             // const previousWord = cryptoIndex === cryptos.length ? 0 : cryptoIndex - 1;
             return {
-                id: `${cryptoIndex}${rowIndex}`,
+                id: `${cryptoIndex}-${rowIndex}`,
                 rowId: rowIndex,
                 x: maxLeft * constants.CELL_WIDTH + ((rowIndex + 1) - cryptos[cryptoIndex].colouredCell) * constants.CELL_WIDTH,
                 y: cryptoIndex * constants.CELL_HEIGHT,

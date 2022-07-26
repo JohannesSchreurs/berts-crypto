@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import { useStoreon } from 'storeon/react';
 import Head from 'next/head';
 
-import GridWrapper from '../../components/Modules/GridWrapper/GridWrapper';
 import { getCryptoEntryDataBySlug, getAllCryptoEntrySlugs } from '../../requests/crypto-entry';
 import { createGridFromData } from '../../utils/transformData';
 import constants from '../../store/constants';
+
+import GridWrapper from '../../components/Modules/GridWrapper/GridWrapper';
 import CryptoHeader from '../../components/Modules/CryptoHeader/CryptoHeader';
+import CryptoHints from '../../components/Modules/CryptoHints/CryptoHints';
 
 export default function Crypto({ crypto, gridData }) {
   const { title, date, cryptos } = crypto;
@@ -27,6 +29,8 @@ export default function Crypto({ crypto, gridData }) {
       <CryptoHeader title={title} date={date} />
         
       <GridWrapper gridData={gridData} hints={cryptos} />
+
+      <CryptoHints />
     </>
   )
 }
