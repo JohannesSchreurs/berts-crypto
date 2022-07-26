@@ -1,15 +1,1 @@
 @import "settings/main";
-
-.cell {}
-.cellRect {
-    stroke-width: 1;
-    stroke: $black;
-    fill: $white;
-}
-.cellRectColoured {
-    fill: $blue
-}
-
-.cellText {
-    font-size: .75rem;
-}

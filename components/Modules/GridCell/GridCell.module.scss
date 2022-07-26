@@ -1,0 +1,66 @@
+@import "settings/main";
+
+.cell {
+    transition: all .1s ease-out;
+}
+
+.cell input {
+    border: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    background: transparent;
+    color: $black;
+    font-size: .75rem;
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    transition: all .1s ease-out;
+}
+
+.cell input::selection {
+    background-color: transparent;
+}
+
+.cell input:focus,
+.cell input:focus-visible,
+.cell input:focus-within {
+    background-color: $black;
+    color: $white;
+}
+
+.cellRect {
+    stroke-width: .5;
+    stroke: $black;
+    fill: $white;
+}
+
+.cellRectActive {
+    fill: rgba($blue, .3);
+}
+
+.cellRectColoured {
+    fill: $blue;
+}
+
+.cellText {
+    font-size: .5rem;
+    text-transform: uppercase;
+    user-select: none;
+    pointer-events: none;
+    fill: $black;
+}
+
+.label {
+    @include visually-hidden;
+}
+
+/* =========================================================================  */
+/* Highligt */
+/* =========================================================================  */
+.cellHighlight .cellText {
+    fill: $white;
+}

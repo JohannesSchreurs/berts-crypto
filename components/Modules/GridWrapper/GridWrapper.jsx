@@ -1,33 +1,36 @@
 import { useStoreon } from 'storeon/react';
-
 import styles from './GridWrapper.module.scss';
 import GridRow from '../GridRow/GridRow';
+import constants from '../../../utils/constants';
+import storeConstants from '../../../store/constants';
 
-const GridWrapper = ({title, date, gridData }) => {
-    const { grid } = useStoreon('grid');
-    const formattedDate = new Date(date).toLocaleDateString();
 
-    // console.log(grid)
+const GridWrapper = ({ gridData, hints }) => {
+    const { grid, dispatch } = useStoreon('grid');
 
-    // const { grid } = useStoreon('grid')
-    // const buttonHandler = e => {
-    //     // console.log(grid);
-    //     dispatch(constants.STORE.GRID.SET, { title: 'updated' }) 
-    // }
+    const rowClickHandler = (index) => {
+        dispatch(storeConstants.STORE.GRID.SET.ACTIVE_ROW, index );
+        dispatch(storeConstants.STORE.GRID.SET.ACTIVE_TILE, `${index}0` );
+    }
 
     return (
         <div className={styles.wrapper}>
-            <time className={styles.date} datatime={formattedDate}>
-                { formattedDate }
-            </time>
-            <h1>{ title }</h1>
-            <ul>
-                {/* { gridData.map(({ id, cryptoHint, cryptoAnswer }) => (
-                    <li key={id}>{ cryptoHint } - { cryptoAnswer }</li>
-                )) } */}
-            </ul> 
-            <svg viewBox={`-1 -1 ${gridData.gridWidth + 2} ${gridData.gridHeight + 2}`}>
-                { gridData.rows.map((row, index) => <GridRow key={index} row={row} />) }
+            <ol className={styles.hintsList}>
+                { hints.map(({ id, cryptoHint }, index) => (
+                    <li className={`${styles.hint} ${grid.activeRow === index ? styles.hintHighlight : ''} `} key={id} onClick={() => rowClickHandler(index)}>{ cryptoHint }</li>
+                )) }
+            </ol> 
+            <svg className={styles.crypto} viewBox={`-1 -1 ${gridData.gridWidth + 22} ${gridData.gridHeight + 2}`} xmlns="http://www.w3.org/1999/xhtml">
+                { gridData.rows.map((row, index) => {
+                    return (
+                        <g key={index}>
+                            <text className={styles.index} x={9} y={(index * constants.CELL_HEIGHT) + 13} textAnchor="middle">
+                                { index + 1 }.
+                            </text>
+                            <GridRow row={row} rowIndex={index} />
+                        </g>
+                    )
+                }) }
             </svg>
         </div>
     )

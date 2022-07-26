@@ -11,7 +11,6 @@
   "dependencies": {
     "@storeon/localstorage": "^1.4.0",
     "graphql-request": "^4.3.0",
-    "lodash": "^4.17.21",
     "next": "12.2.2",
     "normalize.css": "^8.0.1",
     "postcss": "8.2.15",

@@ -13,6 +13,10 @@ const CRYPTO_ENTRY_QUERY = `query CrytpoEntryQueryBySlug($slug: String) {
           createdAt
           colouredCell
           id
+          hints {
+            wordIndex
+            wordIndexValue
+          }
         }
       }
 }`;

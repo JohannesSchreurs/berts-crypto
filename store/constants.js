@@ -5,6 +5,7 @@ const constants = {
             SET: {
                 DEFAULT: 'GRID/DEFAULT',
                 ACTIVE_TILE: 'GRID/ACTIVE_TILE',
+                ACTIVE_ROW: 'GRID/ACTIVE_ROW'
             }
         },
         SETTINGS: {

@@ -1,0 +1,15 @@
+@import "settings/main";
+
+.title {
+    @include font(title);
+    text-align: center;
+    margin: 0;
+}
+
+.date {
+    text-align: center;
+    width: 100%;
+    display: block;
+    @include font(body-small);
+    margin-top: 4rem;
+}
