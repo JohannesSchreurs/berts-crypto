@@ -6,7 +6,6 @@ import GridRow from '../GridRow/GridRow';
 import constants from '../../../utils/constants';
 import storeConstants from '../../../store/constants';
 
-
 const GridWrapper = ({ gridData, hints }) => {
     const { grid, dispatch } = useStoreon('grid', 'solution');
     const { query } = useRouter();

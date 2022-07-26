@@ -66,12 +66,12 @@ const GridCell = ({ cell, rowIndex }) => {
 
         if(e.key === 'ArrowUp') {
             dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex === 0 ? 18 : rowIndex - 1);
-            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 0 ? `180` : `${rowIndex-1}-0`);
+            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 0 ? '18-0' : `${rowIndex-1}-0`);
         }
 
         if(e.key === 'ArrowDown' || e.key === 'Enter') {
             dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex === 18 ? 0 : rowIndex + 1);
-            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 18 ? `0-0` : `${rowIndex+1}-0`);
+            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 18 ? '0-0' : `${rowIndex+1}-0`);
         }
     }
 
