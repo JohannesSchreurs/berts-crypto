@@ -13,65 +13,67 @@ const GridCell = ({ cell, rowIndex }) => {
     const inputRegex = '^[a-zA-Z]$';
     const firstRender = useRef(true);
     
-    const inputChangeHandler = e => {
-        const lastLetter = e.target.value.slice(-1);
-
-        if (lastLetter.match(inputRegex)) {
-            setLetter(lastLetter);
-            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.nextCell);
-
-            dispatch(constants.STORE.SOLUTION.SET.CELLS, {
-                id: query.slug,
-                cellId: cell.id,
-                cellValue: lastLetter
-            });
-
-            if (!!cell.hint) {
-                dispatch(constants.STORE.SOLUTION.SET.HINTS, {
-                    id: query.slug,
-                    cellId: cell.hint.wordIndexValue,
-                    cellValue: lastLetter
-                });
-            }
-        }
-    }
+    const inputChangeHandler = e => {}
 
     const inputKeyHandler = e => {
-        // Manually do the clearing of a cell, as backspace isn't really that convient to use in onChange
-        if (e.key === 'Backspace' || e.key === 'Delete') {
-            setLetter('');
-            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.previousCell);
-            dispatch(constants.STORE.SOLUTION.SET.CELLS, {
-                id: query.slug,
-                cellId: cell.id,
-                cellValue: ''
-            });
-
-            if (!!cell.hint) {
-                dispatch(constants.STORE.SOLUTION.SET.HINTS, {
+        switch (e.key) {
+            case 'Backspace' || 'Delete':
+                setLetter('');
+                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.previousCell);
+                dispatch(constants.STORE.SOLUTION.SET.CELLS, {
                     id: query.slug,
-                    cellId: cell.hint.wordIndexValue,
+                    cellId: cell.id,
                     cellValue: ''
                 });
-            }
-        }
+    
+                if (!!cell.hint) {
+                    dispatch(constants.STORE.SOLUTION.SET.HINTS, {
+                        id: query.slug,
+                        cellId: cell.hint.wordIndexValue,
+                        cellValue: ''
+                    });
+                }
+                break;
+            
+            case 'ArrowLeft':
+                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.previousCell);
+                break;
 
-        if(e.key === 'ArrowLeft') {
-            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.previousCell);
-        }
+            case 'ArrowRight':
+                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.nextCell);
+                break;
+            
+            case 'ArrowUp':
+                dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex === 0 ? 18 : rowIndex - 1);
+                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 0 ? '18-0' : `${rowIndex-1}-0`);
+                break;
+            
+            case 'ArrowDown' || 'Enter':
+                dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex === 18 ? 0 : rowIndex + 1);
+                dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 18 ? '0-0' : `${rowIndex+1}-0`);
+                break;
+                
+            default:
+                if (e.key.match(inputRegex)) {
+                    const lastLetter = e.key.slice(-1);
+                    setLetter(lastLetter);
+                    dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.nextCell);
         
-        if (e.key === 'ArrowRight') {
-            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.nextCell);
-        }
-
-        if(e.key === 'ArrowUp') {
-            dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex === 0 ? 18 : rowIndex - 1);
-            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 0 ? '18-0' : `${rowIndex-1}-0`);
-        }
-
-        if(e.key === 'ArrowDown' || e.key === 'Enter') {
-            dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex === 18 ? 0 : rowIndex + 1);
-            dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, rowIndex === 18 ? '0-0' : `${rowIndex+1}-0`);
+                    dispatch(constants.STORE.SOLUTION.SET.CELLS, {
+                        id: query.slug,
+                        cellId: cell.id,
+                        cellValue: lastLetter
+                    });
+        
+                    if (!!cell.hint) {
+                        dispatch(constants.STORE.SOLUTION.SET.HINTS, {
+                            id: query.slug,
+                            cellId: cell.hint.wordIndexValue,
+                            cellValue: lastLetter
+                        });
+                    }
+                }
+                break;
         }
     }
 
@@ -88,6 +90,17 @@ const GridCell = ({ cell, rowIndex }) => {
 
     const selectHandler = () => {
         inputRef.current.setSelectionRange(-1, -1);
+        dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex);
+        dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.id);
+    }
+
+    const clickHandler = () => {
+        dispatch(constants.STORE.GRID.SET.ACTIVE_ROW, rowIndex);
+        dispatch(constants.STORE.GRID.SET.ACTIVE_TILE, cell.id);
+        inputRef.current.focus();
+        inputRef.current.setSelectionRange(-1, -1);
+        console.log('click')
+
     }
 
     useEffect(() => {
@@ -134,6 +147,7 @@ const GridCell = ({ cell, rowIndex }) => {
                     onKeyDown={inputKeyHandler}
                     onBlur={blurHandler}
                     onChange={inputChangeHandler}
+                    onClick={clickHandler}
                     value={letter}
                     type="text"
                     onSelect={selectHandler}
